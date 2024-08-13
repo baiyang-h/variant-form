@@ -18,6 +18,7 @@ export const containers = [
     type: 'table',
     category: 'container',
     icon: 'table',
+    rows: [],
     options: {
       name: '',
       hidden: false,
@@ -77,6 +78,9 @@ export const containers = [
     type: 'table-cell',
     category: 'container',
     icon: 'table-cell',
+    internal: true,
+    widgetList: [],
+    merged: false,
     options: {
       name: '',
       label: '',
