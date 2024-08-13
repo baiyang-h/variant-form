@@ -18,12 +18,25 @@ export const containers = [
     type: 'table',
     category: 'container',
     icon: 'table',
-    rows: [],
     options: {
       name: '',
       hidden: false,
       customClass: '',  //自定义css类名
-    }
+      maxHeight: 800,
+      stripe: false,
+      border: false,
+      size: '',
+      fit: true,
+      showHeader: true,
+      highlightCurrentRow: false,
+      rowClassName: '',
+      cellClassName: '',
+      headerRowClassName: '',
+      headerCellClassName: '',
+      emptyText: '暂无数据',
+    },
+    columns: [],
+    data: [],
   },
 
   {
@@ -64,17 +77,19 @@ export const containers = [
     type: 'table-cell',
     category: 'container',
     icon: 'table-cell',
-    internal: true,
-    widgetList: [],
-    merged: false,
     options: {
       name: '',
-      cellWidth: '',
-      cellHeight: '',
-      colspan: 1,
-      rowspan: 1,
-      wordBreak: false,  //是否自动换行
-      customClass: '',  //自定义css类名
+      label: '',
+      prop: '',
+      width: '',
+      minWidth: '',
+      fixed: '',
+      resizable: true,
+      formatter: '',
+      showOverflowTooltip: false,
+      align: 'left',
+      className: '',
+      labelClassName: '',
     }
   },
 
@@ -93,7 +108,6 @@ export const containers = [
       customClass: '',  //自定义css类名
     }
   },
-
 
 ]
 

@@ -45,39 +45,104 @@ ${ctn.cols.map(col => {
 
   'table': (ctn, formConfig) => {
     const tableClassAttr = buildClassAttr(ctn, 'table-layout')
+    const {
+      maxHeight,
+      stripe,
+      border,
+      size,
+      fit,
+      showHeader,
+      highlightCurrentRow,
+      rowClassName,
+      cellClassName,
+      headerRowClassName,
+      headerCellClassName,
+      emptyText,
+    } = getElAttrs(ctn, formConfig)
     const tableTemplate =
-`<div class="table-container">
-  <table ${tableClassAttr}><tbody>
-  ${ctn.rows.map(tr => {
-      return `<tr>${
-          tr.cols.filter(td => !td.merged).map(td => {
-            const tdOpt = td.options
-            const tdClassAttr = buildClassAttr(td, 'table-cell')
-            const colspanAttr = (!isNaN(tdOpt.colspan) && (tdOpt.colspan !== 1)) ? `colspan="${tdOpt.colspan}"` : ''
-            const rowspanAttr = (!isNaN(tdOpt.rowspan) && (tdOpt.rowspan !== 1)) ? `rowspan="${tdOpt.rowspan}"` : ''
-
-            let tdStyleArray = []
-            !!tdOpt.cellWidth && tdStyleArray.push('width: ' + tdOpt.cellWidth + ' !important')
-            !!tdOpt.cellHeight && tdStyleArray.push('height: ' + tdOpt.cellHeight + ' !important')
-            let tdStyleAttr = (tdStyleArray.length > 0) ? `style="${tdStyleArray.join(';')}"` : ''
-
-            return `<td ${tdClassAttr} ${colspanAttr} ${rowspanAttr} ${tdStyleAttr}>${td.widgetList.map(tw => {
-                          if (tw.category === 'container') {
-                            return buildContainerWidget(tw, formConfig)
-                          } else {
-                            return buildFieldWidget(tw, formConfig)
-                          }
-                        }).join('')
-                        }
-                    </td>`
-          }).join('')
-      }</tr>`
-    }).join('')
-  }
-  </tbody></table>
+      `<div class="table-container">
+  <el-table
+    ${tableClassAttr}
+    ${maxHeight}
+    ${stripe}
+    ${border}
+    ${size}
+    ${fit}
+    ${showHeader}
+    ${highlightCurrentRow}
+    ${rowClassName}
+    ${cellClassName}
+    ${headerRowClassName}
+    ${headerCellClassName}
+    ${emptyText}
+  >
+  ${ctn.columns.map(column => {
+        const {
+          prop,
+          width,
+          minWidth,
+          fixed,
+          resizable,
+          formatter,
+          showOverflowTooltip,
+          align,
+          className,
+          labelClassName,
+        } = getElAttrs({ options: column }, formConfig)
+        return `<el-table-column
+          ${prop}
+          ${width}
+          ${minWidth}
+          ${fixed}
+          ${resizable}
+          ${formatter}
+          ${showOverflowTooltip}
+          ${align}
+          ${className}
+          ${labelClassName}>
+        </el-table-column>`
+      }).join('')
+      }
+  </el-table>
 </div>`
     return tableTemplate
   },
+
+//   'table': (ctn, formConfig) => {
+//     const tableClassAttr = buildClassAttr(ctn, 'table-layout')
+//     const tableTemplate =
+// `<div class="table-container">
+//   <table ${tableClassAttr}><tbody>
+//   ${ctn.rows.map(tr => {
+//       return `<tr>${
+//           tr.cols.filter(td => !td.merged).map(td => {
+//             const tdOpt = td.options
+//             const tdClassAttr = buildClassAttr(td, 'table-cell')
+//             const colspanAttr = (!isNaN(tdOpt.colspan) && (tdOpt.colspan !== 1)) ? `colspan="${tdOpt.colspan}"` : ''
+//             const rowspanAttr = (!isNaN(tdOpt.rowspan) && (tdOpt.rowspan !== 1)) ? `rowspan="${tdOpt.rowspan}"` : ''
+//
+//             let tdStyleArray = []
+//             !!tdOpt.cellWidth && tdStyleArray.push('width: ' + tdOpt.cellWidth + ' !important')
+//             !!tdOpt.cellHeight && tdStyleArray.push('height: ' + tdOpt.cellHeight + ' !important')
+//             let tdStyleAttr = (tdStyleArray.length > 0) ? `style="${tdStyleArray.join(';')}"` : ''
+//
+//             return `<td ${tdClassAttr} ${colspanAttr} ${rowspanAttr} ${tdStyleAttr}>${td.widgetList.map(tw => {
+//                           if (tw.category === 'container') {
+//                             return buildContainerWidget(tw, formConfig)
+//                           } else {
+//                             return buildFieldWidget(tw, formConfig)
+//                           }
+//                         }).join('')
+//                         }
+//                     </td>`
+//           }).join('')
+//       }</tr>`
+//     }).join('')
+//   }
+//   </tbody></table>
+// </div>`
+//     return tableTemplate
+//   },
 
   'tab': (ctn, formConfig) => {
     const tabClassAttr = buildClassAttr(ctn)
@@ -186,6 +251,32 @@ function getElAttrs(widget, formConfig) {  //获取El组件属性
     contentPosition: (!!wop.contentPosition && (wop.contentPosition !== 'center')) ? `content-position="${wop.contentPosition}"` : '',
 
     appendButtonChild: !!wop.appendButton ? `<template #append><el-button class="${wop.buttonIcon}" ${!!wop.appendButtonDisabled ? 'disabled' : ''}></el-button></template>` : '',
+
+    // table
+    maxHeight: wop.maxHeight ? `max-height="${wop.maxHeight}"` : '',
+    stripe: wop.stripe ? `:stripe="true"` : '',
+    border: wop.border ? `:border="true"` : '',
+    fit: wop.fit ? '' : `:fit="false"`,
+    showHeader: wop.showHeader ? '' : `:showHeader="false"`,
+    highlightCurrentRow: wop.highlightCurrentRow ? `:highlight-current-row="true"` : '',
+    rowClassName: wop.rowClassName ? `row-class-name="${wop.rowClassName}"` : '',
+    cellClassName: wop.cellClassName ? `cell-class-name="${wop.cellClassName}"` : '',
+    headerRowClassName: wop.headerRowClassName ? `header-row-class-name="${wop.headerRowClassName}"` : '',
+    headerCellClassName: wop.headerCellClassName ? `header-cell-class-name="${wop.headerCellClassName}"` : '',
+    emptyText: wop.emptyText ? `empty-text="${wop.emptyText}"` : '',
+
+    // table-cell
+    label: wop.label ? `label="${wop.label}"` : '',
+    prop: wop.prop ? `prop="${wop.prop}"` : '',
+    width: wop.width ? `width="${wop.width}"` : '',
+    minWidth: wop.minWidth ? `min-width="${wop.minWidth}"` : '',
+    fixed: wop.fixed ? `fixed="${wop.fixed}"` : '',
+    resizable: wop.resizable ? '' : `:resizable="false"`,
+    formatter: wop.formatter ? `:formatter="${wop.formatter}"` : '',
+    showOverflowTooltip: wop.showOverflowTooltip ? `:show-overflow-tooltip="true"` : '',
+    align: wop.align ? `align="${wop.align}"` : '',
+    className: wop.className ? `class-name="${wop.className}"` : '',
+    labelClassName: wop.labelClassName ? `label-class-name="${wop.labelClassName}"` : '',
   }
 }
 

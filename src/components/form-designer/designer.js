@@ -754,17 +754,17 @@ export function createDesigner(vueInstance) {
         newCol.options.name = 'gridCol' + tmpId
         newCon.cols.push(newCol)
       } else if (newCon.type === 'table') {
-        let newRow = {cols: []}
-        newRow.id = 'table-row-' + generateId()
-        newRow.merged = false
-        let newCell = deepClone( this.getContainerByType('table-cell') )
-        newCell.id = 'table-cell-' + generateId()
-        newCell.options.name = newCell.id
-        newCell.merged = false
-        newCell.options.colspan = 1
-        newCell.options.rowspan = 1
-        newRow.cols.push(newCell)
-        newCon.rows.push(newRow)
+        // let newRow = {cols: []}
+        newCon.id = 'table-row-' + generateId()
+        // newRow.merged = false
+        // let newCell = deepClone( this.getContainerByType('table-cell') )
+        // newCell.id = 'table-cell-' + generateId()
+        // newCell.options.name = newCell.id
+        // newCell.merged = false
+        // newCell.options.colspan = 1
+        // newCell.options.rowspan = 1
+        // newRow.cols.push(newCell)
+        // newCon.rows.push(newRow)
       } else if (newCon.type === 'tab') {
         let newTabPane = deepClone( this.getContainerByType('tab-pane') )
         newTabPane.id = 'tab-pane-' + generateId()

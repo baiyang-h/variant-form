@@ -14,20 +14,54 @@
 
     <div :key="widget.id" class="table-container"
          :class="[selected ? 'selected' : '', customClass]" @click.stop="selectWidget(widget)">
-      <table class="table-layout">
-        <tbody>
-        <tr v-for="(row, rowIdx) in widget.rows" :key="row.id">
-          <template v-for="(colWidget, colIdx) in row.cols">
-            <table-cell-widget v-if="!colWidget.merged" :widget="colWidget" :designer="designer"
-                               :key="colWidget.id" :parent-list="widget.cols"
-                               :row-index="rowIdx" :row-length="widget.rows.length"
-                               :col-index="colIdx" :col-length="row.cols.length"
-                               :col-array="row.cols" :row-array="widget.rows"
-                               :parent-widget="widget"></table-cell-widget>
-          </template>
-        </tr>
-        </tbody>
-      </table>
+<!--      <table class="table-layout">-->
+<!--        <tbody>-->
+<!--        <tr v-for="(row, rowIdx) in widget.rows" :key="row.id">-->
+<!--          <template v-for="(colWidget, colIdx) in row.cols">-->
+<!--            <table-cell-widget v-if="!colWidget.merged" :widget="colWidget" :designer="designer"-->
+<!--                               :key="colWidget.id" :parent-list="widget.cols"-->
+<!--                               :row-index="rowIdx" :row-length="widget.rows.length"-->
+<!--                               :col-index="colIdx" :col-length="row.cols.length"-->
+<!--                               :col-array="row.cols" :row-array="widget.rows"-->
+<!--                               :parent-widget="widget"></table-cell-widget>-->
+<!--          </template>-->
+<!--        </tr>-->
+<!--        </tbody>-->
+<!--      </table>-->
+
+      <el-table
+        :data="widget.data"
+        :max-height="widget.options.maxHeight"
+        :stripe="widget.options.stripe"
+        :border="widget.options.border"
+        :size="widget.options.size"
+        :fit="widget.options.fit"
+        :show-header="widget.options.showHeader"
+        :highlight-current-row="widget.options.highlightCurrentRow"
+        :row-class-name="widget.options.rowClassName"
+        :cell-class-name="widget.options.cellClassName"
+        :header-row-class-name="widget.options.headerRowClassName"
+        :header-cell-class-name="widget.options.headerCellClassName"
+        :empty-text="widget.options.emptyText"
+      >
+        <el-table-column
+          v-for="(column, index) in widget.columns"
+          :key="index"
+          :label="column.label"
+          :prop="column.prop"
+          :width="column.width"
+          :min-width="column.minWidth"
+          :fixed="column.fixed"
+          :resizable="column.resizable"
+          :formatter="column.formatter"
+          :show-overflow-tooltip="column.showOverflowTooltip"
+          :align="column.align"
+          :class-name="column.className"
+          :label-class-name="column.labelClassName"
+        >
+        </el-table-column>
+      </el-table>
+
     </div>
 
   </container-wrapper>
@@ -37,7 +71,7 @@
   import i18n from "@/utils/i18n"
   import containerMixin from "@/components/form-designer/form-widget/container-widget/containerMixin"
   import ContainerWrapper from "@/components/form-designer/form-widget/container-widget/container-wrapper"
-  import TableCellWidget from "@/components/form-designer/form-widget/container-widget/table-cell-widget"
+  // import TableCellWidget from "@/components/form-designer/form-widget/container-widget/table-cell-widget"
   import refMixinDesign from "@/components/form-designer/refMixinDesign"
 
   export default {
@@ -47,7 +81,7 @@
     inject: ['refList'],
     components: {
       ContainerWrapper,
-      TableCellWidget,
+      // TableCellWidget,
     },
     props: {
       widget: Object,
